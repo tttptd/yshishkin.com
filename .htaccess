@@ -1,0 +1,23 @@
+#AuthName "Please, use correct password"
+#AuthType Basic
+#AuthGroupFile /usr/local/apache/_users/groups
+#AuthUserFile /usr/local/apache/_users/.htpasswd
+#<Files *.*>
+#    require group admins designers
+#</Files>
+
+Options -Indexes
+
+RewriteEngine On
+RewriteBase /
+
+# apply www if have no hostname
+# RewriteCond %{HTTP_HOST} !^www\.
+# RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [L,R,QSA]
+
+# fix trailing slash
+RewriteCond %{REQUEST_URI} !\.
+RewriteRule ^(.+[^/])$ http://%{SERVER_NAME}/$1/ [L,R,QSA]
+
+RewriteRule ^favicon.ico$ http://%{SERVER_NAME}/i/favicon.ico [L,R]
+
